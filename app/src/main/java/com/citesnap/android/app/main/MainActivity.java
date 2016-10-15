@@ -17,6 +17,9 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.citesnap.android.app.R;
+import com.citesnap.android.app.model.Book;
+import com.citesnap.android.app.model.DataManager;
+import com.citesnap.android.app.model.Quote;
 import com.citesnap.android.app.ocr.OcrCaptureActivity;
 import com.citesnap.android.app.ocr.OcrMainActivity;
 
@@ -29,6 +32,23 @@ public class MainActivity extends AppCompatActivity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_main_screen);
+
+        /* Serializer test
+        Book b = new Book();
+        b.setTitle("Test Book");
+        DataManager m = DataManager.get(this);
+        m.addBook(b);
+        m.saveBooks();
+        m.getBooks();
+
+        Quote q = new Quote();
+        q.setText("Sample Quote");
+        m.addQuote(q);
+        m.saveQuotes();
+        m.getQuotes();
+
+        Toast toast = Toast.makeText(getApplicationContext(), m.getBooks().get(0).getTitle(), Toast.LENGTH_LONG);
+        toast.show(); */
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));

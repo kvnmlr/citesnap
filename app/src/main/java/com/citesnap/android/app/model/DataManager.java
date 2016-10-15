@@ -31,7 +31,14 @@ public class DataManager {
             books = bookSerializer.load();
         } catch (Exception e) {
             books = new ArrayList<Book>();
-            Log.e(TAG, "error loading crimes: ", e);
+            Log.e(TAG, "error loading books: ", e);
+        }
+
+        try {
+            quotes = quoteSerializer.load();
+        } catch (Exception e) {
+            quotes = new ArrayList<Quote>();
+            Log.e(TAG, "error loading quotes: ", e);
         }
     }
 

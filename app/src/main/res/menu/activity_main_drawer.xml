@@ -5,31 +5,31 @@
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_menu_camera"
-            android:book="Feed" />
+            android:title="Feed" />
         <item
             android:id="@+id/nav_bookshelf"
             android:icon="@drawable/ic_menu_gallery"
-            android:book="Book Shelf" />
+            android:title="Book Shelf" />
         <item
             android:id="@+id/nav_quotes"
             android:icon="@drawable/ic_menu_slideshow"
-            android:book="Quotes" />
+            android:title="Quotes" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_manage"
-            android:book="Profile" />
+            android:title="Profile" />
     </group>
 
-    <item android:book="Communicate">
+    <item android:title="Communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:book="Share" />
+                android:title="Share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:book="Snap Quote" />
+                android:title="Snap Quote" />
         </menu>
     </item>
 
