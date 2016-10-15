@@ -41,7 +41,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.samples.vision.ocrreader.R;
 import com.citesnap.android.app.camera.CameraSource;
 import com.citesnap.android.app.camera.CameraSourcePreview;
 import com.citesnap.android.app.camera.GraphicOverlay;
@@ -49,6 +48,8 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import com.citesnap.android.app.R;
+
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the

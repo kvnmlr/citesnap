@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.android.gms.samples.vision.ocrreader"
+    package="com.citesnap.android.app"
     android:installLocation="auto" >
 
     <uses-feature android:name="android.hardware.camera" />
@@ -12,16 +12,15 @@
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
-        android:label="MultiTrackerApp"
+        android:label="@string/app_name"
         android:supportsRtl = "true"
-        android:theme="@style/Theme.AppCompat" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />
 
         <activity
-            android:name="com.google.android.gms.samples.vision.ocrreader.com.citesnap.android.app.main.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:name="com.citesnap.android.app.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,8 +28,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.google.android.gms.samples.vision.ocrreader.com.citesnap.android.app.ocr.OcrCaptureActivity"
+        <activity android:name="com.citesnap.android.app.ocr.OcrMainActivity"
+            android:label="OCR Main" />
+
+        <activity android:name="com.citesnap.android.app.ocr.OcrCaptureActivity"
             android:label="Read Text" />
+        <activity android:name="com.citesnap.android.app.main.BookShelfActivity"
+            android:label="Book Shelf" />
+        <activity android:name="com.citesnap.android.app.main.ProfileActivity"
+            android:label="Profile" />
+        <activity android:name="com.citesnap.android.app.main.QuotesActivity"
+            android:label="Quotes" />
     </application>
 
 </manifest>

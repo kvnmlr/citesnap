@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_feed"
+            android:icon="@drawable/ic_menu_camera"
+            android:book="Feed" />
+        <item
+            android:id="@+id/nav_bookshelf"
+            android:icon="@drawable/ic_menu_gallery"
+            android:book="Book Shelf" />
+        <item
+            android:id="@+id/nav_quotes"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:book="Quotes" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_menu_manage"
+            android:book="Profile" />
+    </group>
+
+    <item android:book="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:book="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:book="Snap Quote" />
+        </menu>
+    </item>
+
+</menu>
