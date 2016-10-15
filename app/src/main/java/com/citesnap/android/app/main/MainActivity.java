@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.samples.vision.ocrreader;
+package com.citesnap.android.app.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +25,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
+import com.citesnap.android.app.ocr.OcrCaptureActivity;
+import com.google.android.gms.samples.vision.ocrreader.R;
 
 /**
  * Main activity demonstrating how to pass extra parameters to an activity that
