@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_feed) {
             Toast toast = Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT);
             toast.show();
+
         }
         else if (id == R.id.nav_bookshelf) {
 
