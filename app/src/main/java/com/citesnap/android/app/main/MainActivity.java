@@ -114,19 +114,21 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_feed) {
             Toast toast = Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT);
             toast.show();
-        } else if (id == R.id.nav_bookshelf) {
+        }
+        else if (id == R.id.nav_bookshelf) {
+
             Intent intent = new Intent(this, BookShelfActivity.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_quotes) {
+        }
+        else if (id == R.id.nav_quotes) {
             Intent intent = new Intent(this, QuotesActivity.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_profile) {
+        }
+        else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_send) {
+        }
+        else if (id == R.id.nav_send) {
             Intent intent = new Intent(this, OcrMainActivity.class);
             startActivity(intent);
         }
