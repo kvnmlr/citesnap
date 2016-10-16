@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         m.getBooks();
 
         Quote q = new Quote();
-        q.setText("Sample Quote");
+        q.setLastname("Sample Quote");
         m.addQuote(q);
         m.saveQuotes();
         m.getQuotes();

@@ -9,36 +9,45 @@ public class DataManager {
     private static final String TAG = "CrimeLab";
     private static final String BOOKS_FILENAME = "books.json";
     private static final String QUOTES_FILENAME = "quotes.json";
+    private static final String PROFILE_FILENAME = "profiles.json";
     private BookSerializer bookSerializer;
     private QuoteSerializer quoteSerializer;
-
-
+    private ProfileSerializer profileSerializer;
 
     private static DataManager dataManager;
     private Context appContext;
 
     private ArrayList<Book> books;
     private ArrayList<Quote> quotes;
+    private ArrayList<Profile> profiles;
 
 
     private DataManager(Context appContext){
-        appContext = appContext;
+        this.appContext = appContext;
         bookSerializer = new BookSerializer(appContext, BOOKS_FILENAME);
         quoteSerializer = new QuoteSerializer(appContext, QUOTES_FILENAME);
+        profileSerializer = new ProfileSerializer(appContext, PROFILE_FILENAME);
 
 
         try {
             books = bookSerializer.load();
         } catch (Exception e) {
-            books = new ArrayList<Book>();
+            books = new ArrayList<>();
             Log.e(TAG, "error loading books: ", e);
         }
 
         try {
             quotes = quoteSerializer.load();
         } catch (Exception e) {
-            quotes = new ArrayList<Quote>();
+            quotes = new ArrayList<>();
             Log.e(TAG, "error loading quotes: ", e);
+        }
+
+        try {
+            profiles = profileSerializer.load();
+        } catch (Exception e) {
+            profiles = new ArrayList<>();
+            Log.e(TAG, "error loading profiles: ", e);
         }
     }
 
@@ -101,5 +110,39 @@ public class DataManager {
             Log.e(TAG, "error saving crimes: ", e);
             return false;
         }
+    }
+    public Profile getProfile(UUID id) {
+        for(Profile p : profiles) {
+            if(p.getId().equals(id))
+                return p;
+        }
+        return null;
+    }
+    public void addQuote(Profile p) {
+        profiles.add(p);
+    }
+    public void delete(Profile p) {
+        quotes.remove(p);
+    }
+    public boolean saveProfiles() {
+        try {
+            profileSerializer.save(profiles);
+            Log.d(TAG, "crimes saved to file");
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, "error saving crimes: ", e);
+            return false;
+        }
+    }
+
+    public boolean saveAll() {
+        return (saveQuotes() && saveBooks() && saveProfiles());
+    }
+
+    public void clear() {
+        books = new ArrayList<>();
+        quotes = new ArrayList<>();
+        profiles = new ArrayList<>();
+        saveAll();
     }
 }
