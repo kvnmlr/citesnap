@@ -127,6 +127,13 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
+        }else if (id == R.id.nav_settings) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else if (id == R.id.nav_share) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT);
+            toast.show();
         }
         else if (id == R.id.nav_send) {
             Intent intent = new Intent(this, OcrMainActivity.class);
