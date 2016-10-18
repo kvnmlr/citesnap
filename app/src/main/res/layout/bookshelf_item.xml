@@ -11,9 +11,35 @@
         android:layout_height="100dp"
         android:src="@drawable/samplecover" />
 
-    <TextView
-        android:id="@+id/bookshelf_item_text"
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/bookshelf_item_title"
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/bookshelf_item_author"
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/bookshelf_item_isbn"
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/bookshelf_item_link"
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 </LinearLayout>

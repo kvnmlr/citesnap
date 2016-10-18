@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,7 +24,9 @@ import com.citesnap.android.app.model.Quote;
 import com.citesnap.android.app.ocr.OcrCaptureActivity;
 import com.citesnap.android.app.ocr.OcrMainActivity;
 
-public class MainActivity extends AppCompatActivity
+import java.util.Date;
+
+public class MainActivity extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity
 
         Toast toast = Toast.makeText(getApplicationContext(), m.getBooks().get(0).getTitle(), Toast.LENGTH_LONG);
         toast.show(); */
+
+        databaseTestSetup();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));
@@ -143,5 +148,32 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void databaseTestSetup() {
+        DataManager dm = DataManager.get(this);
+        dm.clear();
+        Book b = new Book();
+        b.setTitle("Harry Potter");
+        b.setAuthor("K.K. Rolling");
+        b.setDate(new Date());
+        b.setISBN("345-567-678");
+        b.setLink("www.amazon.de/irgendwas");
+        dm.addBook(b);
+        Book b2 = new Book();
+        b2.setTitle("A Brief History of Time");
+        b2.setAuthor("Stephen Hawking");
+        b2.setDate(new Date());
+        b2.setISBN("123-234-345");
+        b2.setLink("www.amazon.de/irgendwas/anderes");
+        dm.addBook(b2);
+        Book b3 = new Book();
+        b3.setTitle("Made in America");
+        b3.setAuthor("Sam Walton");
+        b3.setDate(new Date());
+        b3.setISBN("789-890-012");
+        b3.setLink("www.amazon.de/irgendwas/anderes");
+        dm.addBook(b3);
+        dm.saveAll();
     }
 }
