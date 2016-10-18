@@ -68,11 +68,13 @@ public class DataManager {
         }
         return null;
     }
-    public void add(Book b) {
+    public DataManager add(Book b) {
         books.add(b);
+        return dataManager;
     }
-    public void delete(Book b) {
+    public DataManager delete(Book b) {
         books.remove(b);
+        return dataManager;
     }
     public boolean saveBooks() {
         try {
@@ -95,11 +97,13 @@ public class DataManager {
         }
         return null;
     }
-    public void add(Quote q) {
+    public DataManager add(Quote q) {
         quotes.add(q);
+        return dataManager;
     }
-    public void delete(Quote q) {
+    public DataManager delete(Quote q) {
         quotes.remove(q);
+        return dataManager;
     }
     public boolean saveQuotes() {
         try {
@@ -118,11 +122,13 @@ public class DataManager {
         }
         return null;
     }
-    public void add(Profile p) {
+    public DataManager add(Profile p) {
         profiles.add(p);
+        return dataManager;
     }
-    public void delete(Profile p) {
+    public DataManager delete(Profile p) {
         quotes.remove(p);
+        return dataManager;
     }
     public boolean saveProfiles() {
         try {
@@ -139,10 +145,11 @@ public class DataManager {
         return (saveQuotes() && saveBooks() && saveProfiles());
     }
 
-    public void clear() {
+    public DataManager clear() {
         books = new ArrayList<>();
         quotes = new ArrayList<>();
         profiles = new ArrayList<>();
         saveAll();
+        return dataManager;
     }
 }

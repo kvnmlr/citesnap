@@ -44,23 +44,6 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.activity_main_screen);
         result = (TextView) findViewById(R.id.result_text_view);
 
-        /* Serializer test
-        Book b = new Book();
-        b.setTitle("Test Book");
-        DataManager m = DataManager.get(this);
-        m.addBook(b);
-        m.saveBooks();
-        m.getBooks();
-
-        Quote q = new Quote();
-        q.setLastname("Sample Quote");
-        m.addQuote(q);
-        m.saveQuotes();
-        m.getQuotes();
-
-        Toast toast = Toast.makeText(getApplicationContext(), m.getBooks().get(0).getTitle(), Toast.LENGTH_LONG);
-        toast.show(); */
-
         databaseTestSetup();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -218,8 +201,7 @@ public class MainActivity extends FragmentActivity
         dm.add(b4);
         dm.add(b5);
         dm.add(b6);
-        dm.add(b7);
-
+        dm.add(b7).saveBooks();
 
         Quote q1 = new Quote();
         q1.setText("Es war einmal vor langer Zeit");
@@ -229,13 +211,11 @@ public class MainActivity extends FragmentActivity
         Quote q2 = new Quote();
         q2.setText("Und wenn sie nicht gestorben sind, dann leben sie noch heute");
         q2.setDate(new Date());
-        dm.add(q2);
+        dm.add(q2).saveQuotes();
 
         Profile p = new Profile();
         p.setFirstname("Kevin");
         p.setLastname("Müller");
-        dm.add(p);
-
-        dm.saveAll();
+        dm.add(p).saveProfiles();
     }
 }
