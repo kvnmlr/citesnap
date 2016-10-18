@@ -32,6 +32,14 @@ public class Profile {
         return id;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
     public String getLastname() {
         return lastname;
     }

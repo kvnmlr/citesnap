@@ -68,7 +68,7 @@ public class DataManager {
         }
         return null;
     }
-    public void addBook(Book b) {
+    public void add(Book b) {
         books.add(b);
     }
     public void delete(Book b) {
@@ -95,7 +95,7 @@ public class DataManager {
         }
         return null;
     }
-    public void addQuote(Quote q) {
+    public void add(Quote q) {
         quotes.add(q);
     }
     public void delete(Quote q) {
@@ -118,7 +118,7 @@ public class DataManager {
         }
         return null;
     }
-    public void addQuote(Profile p) {
+    public void add(Profile p) {
         profiles.add(p);
     }
     public void delete(Profile p) {

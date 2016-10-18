@@ -18,6 +18,8 @@ import com.citesnap.android.app.model.Book;
 public class AddBookActivity extends Activity {
     private Button searchOnline;
     private Button addBook;
+    private static final String TAG = "AddBookActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

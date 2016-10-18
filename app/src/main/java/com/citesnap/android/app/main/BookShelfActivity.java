@@ -22,6 +22,8 @@ import com.citesnap.android.app.model.Book;
 import com.citesnap.android.app.model.DataManager;
 
 public class BookShelfActivity extends Activity {
+    private static final String TAG = "BookShelfActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
