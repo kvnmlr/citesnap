@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.citesnap.android.app.R;
+import com.citesnap.android.app.model.Book;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -18,9 +19,9 @@ import java.util.zip.Inflater;
  * Created by Kevin on 10/16/2016.
  */
 
-public class BookShelfListAdapter extends ArrayAdapter<String> {
+public class BookShelfListAdapter extends ArrayAdapter<Book> {
 
-    public BookShelfListAdapter(Context context, String[] items) {
+    public BookShelfListAdapter(Context context, ArrayList<Book> items) {
         super(context, R.layout.bookshelf_item, items);
     }
 
@@ -29,13 +30,20 @@ public class BookShelfListAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View bookshelfItemView = inflater.inflate(R.layout.bookshelf_item, parent, false);
 
-        String bookItem = getItem(position);
-        TextView bookName = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_text);
+        Book bookItem = getItem(position);
+
+        TextView bookTitle = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_title);
+        TextView bookAuthor = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_author);
+        TextView bookISBN = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_isbn);
+        TextView bookLink = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_link);
+
         ImageView bookImage = (ImageView) bookshelfItemView.findViewById(R.id.bookshelf_item_image);
 
-        bookName.setText(bookItem);
+        bookTitle.setText(bookItem.getTitle());
+        bookAuthor.setText(bookItem.getAuthor());
+        bookISBN.setText(bookItem.getISBN());
+        bookLink.setText(bookItem.getLink());
         bookImage.setImageResource(R.drawable.samplecover);
-
 
         return bookshelfItemView;
     }

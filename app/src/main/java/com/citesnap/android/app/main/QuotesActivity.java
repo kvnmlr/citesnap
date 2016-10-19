@@ -7,6 +7,8 @@ import android.view.Window;
 import com.citesnap.android.app.R;
 
 public class QuotesActivity extends AppCompatActivity {
+    private static final String TAG = "QuotesActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

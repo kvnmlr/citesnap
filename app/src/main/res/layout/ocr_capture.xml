@@ -7,16 +7,43 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-    <com.citesnap.android.app.camera.CameraSourcePreview
-        android:id="@+id/preview"
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.citesnap.android.app.camera.GraphicOverlay
-            android:id="@+id/graphicOverlay"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content">
 
-    </com.citesnap.android.app.camera.CameraSourcePreview>
+            <ToggleButton
+                android:text="ToggleButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/toggleButton"
+                android:layout_weight="1" />
+
+            <ToggleButton
+                android:text="ToggleButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/toggleButton2"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <com.citesnap.android.app.camera.CameraSourcePreview
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.citesnap.android.app.camera.GraphicOverlay
+                android:id="@+id/graphicOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.citesnap.android.app.camera.CameraSourcePreview>
+    </LinearLayout>
 
 </LinearLayout>
