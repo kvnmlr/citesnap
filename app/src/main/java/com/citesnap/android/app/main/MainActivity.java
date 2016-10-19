@@ -24,6 +24,7 @@ import com.citesnap.android.app.model.Book;
 import com.citesnap.android.app.model.DataManager;
 import com.citesnap.android.app.model.Profile;
 import com.citesnap.android.app.model.Quote;
+import com.citesnap.android.app.model.Util;
 import com.citesnap.android.app.ocr.OcrCaptureActivity;
 import com.citesnap.android.app.ocr.OcrMainActivity;
 import com.google.android.gms.common.api.CommonStatusCodes;
@@ -44,7 +45,7 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.activity_main_screen);
         result = (TextView) findViewById(R.id.result_text_view);
 
-        databaseTestSetup();
+        defaultTestSetup();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));
@@ -124,8 +125,8 @@ public class MainActivity extends FragmentActivity
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
         }else if (id == R.id.nav_settings) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_share) {
             Toast toast = Toast.makeText(getApplicationContext(), "Not yet implemented", Toast.LENGTH_SHORT);
@@ -166,7 +167,7 @@ public class MainActivity extends FragmentActivity
         }
     }
 
-    private void databaseTestSetup() {
+    private void defaultTestSetup() {
         DataManager dm = DataManager.get(this);
         dm.clear();
 
@@ -217,5 +218,8 @@ public class MainActivity extends FragmentActivity
         p.setFirstname("Kevin");
         p.setLastname("Müller");
         dm.add(p).saveProfiles();
+
+        Util u = new Util(this);
+        u.restoreDefault();
     }
 }
