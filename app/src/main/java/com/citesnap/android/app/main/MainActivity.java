@@ -55,8 +55,8 @@ public class MainActivity extends FragmentActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplication(), OcrCaptureActivity.class);
+                startActivityForResult(intent, RC_OCR_CAPTURE);
             }
         });
 
@@ -134,9 +134,6 @@ public class MainActivity extends FragmentActivity
         }
         else if (id == R.id.nav_send) {
             Intent intent = new Intent(this, OcrCaptureActivity.class);
-            intent.putExtra(OcrCaptureActivity.AutoFocus, true);        // TODO get default value from settings
-            intent.putExtra(OcrCaptureActivity.UseFlash, true);         // TODO get default value from settings
-
             startActivityForResult(intent, RC_OCR_CAPTURE);
         }
 

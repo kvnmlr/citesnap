@@ -19,6 +19,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.citesnap.android.app.camera.GraphicOverlay;
 import com.google.android.gms.vision.text.Text;
@@ -31,15 +32,16 @@ import java.util.List;
  * overlay view.
  */
 public class OcrGraphic extends GraphicOverlay.Graphic {
-
+    private static final String TAG = "OcrGraphic";
     private int mId;
 
     private static final int TEXT_COLOR = Color.WHITE;
 
     private static Paint sRectPaint;
-    private static Paint sTextPaint;
+    private static Paint sRectActivePaint;
     private final TextBlock mText;
-
+    private Canvas lastCanvas;
+    private boolean active;
     OcrGraphic(GraphicOverlay overlay, TextBlock text) {
         super(overlay);
 
@@ -47,16 +49,24 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
 
         if (sRectPaint == null) {
             sRectPaint = new Paint();
-            sRectPaint.setColor(TEXT_COLOR);
-            sRectPaint.setStyle(Paint.Style.STROKE);
-            sRectPaint.setStrokeWidth(4.0f);
+            sRectPaint.setColor(Color.WHITE);
+            sRectPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            sRectPaint.setAlpha(50);
+            sRectPaint.setStrokeWidth(0.5f);
         }
 
-        if (sTextPaint == null) {
+        if (sRectActivePaint == null) {
+            sRectActivePaint = new Paint();
+            sRectActivePaint.setColor(Color.GREEN);
+            sRectActivePaint.setStyle(Paint.Style.FILL);
+            sRectActivePaint.setAlpha(30);
+        }
+
+        /*if (sTextPaint == null) {
             sTextPaint = new Paint();
             sTextPaint.setColor(TEXT_COLOR);
             sTextPaint.setTextSize(54.0f);
-        }
+        }*/
         // Redraw the overlay, as this graphic has been added.
         postInvalidate();
     }
@@ -98,6 +108,7 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
      */
     @Override
     public void draw(Canvas canvas) {
+        lastCanvas = canvas;
         TextBlock text = mText;
         if (text == null) {
             return;
@@ -109,14 +120,27 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
         rect.top = translateY(rect.top);
         rect.right = translateX(rect.right);
         rect.bottom = translateY(rect.bottom);
-        canvas.drawRect(rect, sRectPaint);
+        if (active) {
+            canvas.drawRect(rect, sRectActivePaint);
+
+        } else {
+            canvas.drawRect(rect, sRectPaint);
+        }
 
         // Break the text into multiple lines and draw each one according to its own bounding box.
-        List<? extends Text> textComponents = text.getComponents();
+        /*List<? extends Text> textComponents = text.getComponents();
         for(Text currentText : textComponents) {
             float left = translateX(currentText.getBoundingBox().left);
             float bottom = translateY(currentText.getBoundingBox().bottom);
             canvas.drawText(currentText.getValue(), left, bottom, sTextPaint);
-        }
+        }*/
     }
+
+    public void activate() {
+        active = true;
+    }
+    public boolean isActivated() {
+        return active;
+    }
+
 }

@@ -16,10 +16,13 @@
 package com.citesnap.android.app.ocr;
 
 import android.util.SparseArray;
+import android.widget.ArrayAdapter;
 
 import com.citesnap.android.app.camera.GraphicOverlay;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
+
+import java.util.ArrayList;
 
 /**
  * A very simple Processor which receives detected TextBlocks and adds them to the overlay
@@ -27,10 +30,14 @@ import com.google.android.gms.vision.text.TextBlock;
  */
 public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
-    private GraphicOverlay<OcrGraphic> mGraphicOverlay;
+    private GraphicOverlay<OcrGraphic> graphicOverlays;
+    private ArrayList<String> texts;
+    private ArrayList<OcrGraphic> graphics;
+    private boolean selectionOkay;
 
     OcrDetectorProcessor(GraphicOverlay<OcrGraphic> ocrGraphicOverlay) {
-        mGraphicOverlay = ocrGraphicOverlay;
+        graphicOverlays = ocrGraphicOverlay;
+        graphics = new ArrayList<>();
     }
 
     /**
@@ -42,13 +49,28 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
      */
     @Override
     public void receiveDetections(Detector.Detections<TextBlock> detections) {
-        mGraphicOverlay.clear();
+        if (selectionOkay) {
+            return;
+        }
+        texts = new ArrayList<>();
+        graphicOverlays.clear();
+        ArrayList<OcrGraphic> graphicsTemp = new ArrayList<>();
         SparseArray<TextBlock> items = detections.getDetectedItems();
         for (int i = 0; i < items.size(); ++i) {
             TextBlock item = items.valueAt(i);
-            OcrGraphic graphic = new OcrGraphic(mGraphicOverlay, item);
-            mGraphicOverlay.add(graphic);
+            texts.add(item.getValue());
+            OcrGraphic graphic = new OcrGraphic(graphicOverlays, item);
+
+            if (checkOld(item) != null) {
+                if (checkOld(item).isActivated()) {
+                    graphic.activate();
+                }
+            }
+            graphicsTemp.add(graphic);
+            graphicOverlays.add(graphic);
         }
+        graphics = graphicsTemp;
+
     }
 
     /**
@@ -56,6 +78,30 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
      */
     @Override
     public void release() {
-        mGraphicOverlay.clear();
+        graphicOverlays.clear();
+    }
+
+    public ArrayList<String> getTexts() {
+        return texts;
+    }
+
+    public void setSelectionOkay(boolean okay) {
+        selectionOkay = okay;
+    }
+    public ArrayList<OcrGraphic> getGraphics(boolean topToBottom) {
+        if (topToBottom) {
+            // TODO order
+        }
+        return graphics;
+    }
+    private OcrGraphic checkOld(TextBlock c) {
+        for (OcrGraphic cOld : graphics) {
+            if (c.getValue().contains(cOld.getTextBlock().getValue())
+                    || cOld.getTextBlock().getValue().contains(c.getValue())
+                    || cOld.getTextBlock().getValue().equals(c.getValue())) {
+                return cOld;
+            }
+        }
+        return null;
     }
 }

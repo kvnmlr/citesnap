@@ -20,11 +20,9 @@ public class Util {
 
     public static String NO_VALUE_STORES = "noValueStored";
 
-    private String filename;
     private SharedPreferences preferences;
 
     public Util(Context c) {
-        filename = "config.properties";
         preferences = PreferenceManager.getDefaultSharedPreferences(c);
     }
 
