@@ -43,6 +43,8 @@
             android:label="Add Book" />
         <activity android:name="com.citesnap.android.app.main.SettingsActivity"
             android:label="Settings" />
+        <activity android:name="com.citesnap.android.app.main.AddQuoteActivity"
+            android:label="Add Quote" />
     </application>
 
 </manifest>

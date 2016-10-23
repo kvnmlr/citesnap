@@ -28,6 +28,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,8 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Toast;
 
+import com.citesnap.android.app.main.AddQuoteActivity;
+import com.citesnap.android.app.model.Util;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.CommonStatusCodes;
@@ -48,6 +51,8 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import com.citesnap.android.app.R;
 
 
@@ -73,6 +78,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
     private GraphicOverlay<OcrGraphic> mGraphicOverlay;
+    private OcrDetectorProcessor mOcrDetectorProcessor;
+    private TextRecognizer textRecognizer;
 
     // Helper objects for detecting taps and pinches.
     private ScaleGestureDetector scaleGestureDetector;
@@ -88,10 +95,12 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
+        mOcrDetectorProcessor = new OcrDetectorProcessor(mGraphicOverlay);
 
         // read parameters from the intent used to launch the activity.
-        boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, false);
-        boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+        Util u = new Util(this);
+        boolean autoFocus = u.getBooleanProperty(Util.AUTO_FOCUS);
+        boolean useFlash =u.getBooleanProperty(Util.USE_FLASH);
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -136,6 +145,13 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             }
         };
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_capture);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
         Snackbar.make(mGraphicOverlay, R.string.permission_camera_rationale,
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.ok, listener)
@@ -166,8 +182,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         // A text recognizer is created to find text.  An associated processor instance
         // is set to receive the text recognition results and display graphics for each text block
         // on screen.
-        TextRecognizer textRecognizer = new TextRecognizer.Builder(context).build();
-        textRecognizer.setProcessor(new OcrDetectorProcessor(mGraphicOverlay));
+        textRecognizer = new TextRecognizer.Builder(context).build();
+        textRecognizer.setProcessor(mOcrDetectorProcessor);
 
         if (!textRecognizer.isOperational()) {
             // Note: The first time that an app using a Vision API is installed on a
@@ -198,7 +214,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 new CameraSource.Builder(getApplicationContext(), textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedPreviewSize(1280, 1024)
-                .setRequestedFps(2.0f)
+                .setRequestedFps(20.0f)
                 .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
                 .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE : null)
                 .build();
@@ -322,15 +338,42 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * @return true if the activity is ending.
      */
     private boolean onTap(float rawX, float rawY) {
+
         OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
-        TextBlock text = null;
-        if (graphic != null) {
-            text = graphic.getTextBlock();
-            if (text != null && text.getValue() != null) {
-                Intent data = new Intent();
-                data.putExtra(TextBlockObject, text.getValue());
-                setResult(CommonStatusCodes.SUCCESS, data);
-                finish();
+        if (graphic == null) {
+            mCameraSource.autoFocus(null);
+            return false;
+        }
+        mCameraSource.stop();
+        mOcrDetectorProcessor.setSelectionOkay(true);
+        ArrayList<OcrGraphic> graphics = mOcrDetectorProcessor.getGraphics(true);
+        int index = graphics.indexOf(graphic);
+
+        OcrGraphic graphicBefore = index > 0 ? graphics.get(index-1) : null;
+        OcrGraphic graphicAfter = index < graphics.size()-1 ? graphics.get(index+1) : null;
+
+        for (String s : mOcrDetectorProcessor.getTexts()) {
+            Log.d(TAG, s);
+        }
+        String textBefore = null;
+        String text = null;
+        String textAfter = null;
+        if (graphic != null && graphic.getTextBlock() != null) {
+            text = graphic.getTextBlock().getValue();
+
+            if (graphicBefore!=null) {
+                textBefore = graphicBefore.getTextBlock().getValue();
+            }
+            if (graphicAfter!=null) {
+                textAfter = graphicAfter.getTextBlock().getValue();
+            }
+
+
+            if (text != null && text != null) {
+                Intent data = new Intent(this, AddQuoteActivity.class);
+                String value = textBefore + text + textAfter;
+                data.putExtra(TextBlockObject, value);
+                startActivity(data);
             }
             else {
                 Log.d(TAG, "text data is null");

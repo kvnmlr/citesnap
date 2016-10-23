@@ -32,5 +32,6 @@
     <string name="camera_settings">Camera Settings</string>
     <string name="default_settings">Default Settings</string>
     <string name="apply">Apply</string>
+    <string name="capture_quote">Capture Quote</string>
 
 </resources>
