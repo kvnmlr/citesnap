@@ -15,6 +15,7 @@
  */
 package com.citesnap.android.app.ocr;
 
+import android.util.Log;
 import android.util.SparseArray;
 import android.widget.ArrayAdapter;
 
@@ -23,6 +24,8 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A very simple Processor which receives detected TextBlocks and adds them to the overlay
@@ -30,6 +33,7 @@ import java.util.ArrayList;
  */
 public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
+    private static final String TAG = "OcrDetectorProcessor";
     private GraphicOverlay<OcrGraphic> graphicOverlays;
     private ArrayList<String> texts;
     private ArrayList<OcrGraphic> graphics;
@@ -53,23 +57,19 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
             return;
         }
         texts = new ArrayList<>();
+        graphics = new ArrayList<>();
         graphicOverlays.clear();
-        ArrayList<OcrGraphic> graphicsTemp = new ArrayList<>();
+        //ArrayList<OcrGraphic> graphicsTemp = new ArrayList<>();
         SparseArray<TextBlock> items = detections.getDetectedItems();
         for (int i = 0; i < items.size(); ++i) {
             TextBlock item = items.valueAt(i);
             texts.add(item.getValue());
             OcrGraphic graphic = new OcrGraphic(graphicOverlays, item);
 
-            if (checkOld(item) != null) {
-                if (checkOld(item).isActivated()) {
-                    graphic.activate();
-                }
-            }
-            graphicsTemp.add(graphic);
+            graphics.add(graphic);
             graphicOverlays.add(graphic);
         }
-        graphics = graphicsTemp;
+        //graphics = graphicsTemp;
 
     }
 
@@ -88,10 +88,27 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
     public void setSelectionOkay(boolean okay) {
         selectionOkay = okay;
     }
+    public ArrayList<OcrGraphic> getGraphics() {
+        Log.d(TAG, graphics.toString());
+        return getGraphics(true);
+    }
     public ArrayList<OcrGraphic> getGraphics(boolean topToBottom) {
         if (topToBottom) {
-            // TODO order
+            Collections.sort(graphics, new Comparator<OcrGraphic>() {
+                @Override
+                public int compare(OcrGraphic g1, OcrGraphic g2)
+                {
+                    int value = 0;
+                    if (g1.getTextBlock().getBoundingBox().top < g2.getTextBlock().getBoundingBox().top) {
+                        value = -1;
+                    } else {
+                        value = 1;
+                    }
+                    return value;
+                }
+            });
         }
+        Log.d(TAG, graphics.toString());
         return graphics;
     }
     private OcrGraphic checkOld(TextBlock c) {
