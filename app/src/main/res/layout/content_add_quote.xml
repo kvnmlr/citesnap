@@ -32,6 +32,12 @@
             android:id="@+id/list_quote_parts"/>
 
         <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/final_quote" />
+
+        <TextView
             android:text="@string/choose_quote_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,6 +47,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/book_selection_spinner" />
+
+        <TextView
+            android:text="@string/choose_quote_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/choose_quote_category" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_selection_spinner" />
 
         <Button
             android:text="@string/save_quote"

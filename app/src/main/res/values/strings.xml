@@ -37,4 +37,5 @@
     <string name="choose_quote_book">Where did you find that quote?</string>
     <string name="choose_quote">Select sentences to quote</string>
     <string name="add_quote">Add Quote</string>
+    <string name="choose_quote_category">How would you describe this quote?</string>
 </resources>

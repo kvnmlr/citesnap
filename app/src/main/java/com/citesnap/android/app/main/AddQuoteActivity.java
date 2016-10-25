@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -15,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.citesnap.android.app.R;
+import com.citesnap.android.app.model.DataManager;
+import com.citesnap.android.app.model.Quote;
 import com.citesnap.android.app.ocr.OcrCaptureActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,12 +30,14 @@ import java.util.List;
 
 public class AddQuoteActivity extends Activity {
     private static final String TAG = "AddQuoteActivity";
-    private TextView result;
+    private TextView finalLabel;
     private Spinner bookSelection;
     private ArrayAdapter<String> adapter;
     private String finalQuote;
     private ArrayList<Integer> selectedPositions;
     private ArrayList<String> selectedQuotes;
+    private Button submit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,9 @@ public class AddQuoteActivity extends Activity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.add_quote));
+
+        finalLabel = (TextView) findViewById(R.id.final_quote);
+
         selectedPositions = new ArrayList<>();
 
         bookSelection = (Spinner) findViewById(R.id.book_selection_spinner);
@@ -73,6 +82,8 @@ public class AddQuoteActivity extends Activity {
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
 
+
+
         Bundle b = getIntent().getExtras();
         String[] textParts = b.getStringArray(OcrCaptureActivity.TextBlockObject);
         String textMerge = "";
@@ -83,11 +94,12 @@ public class AddQuoteActivity extends Activity {
             s = s.replace(". ", ".");
             textMerge+=("\n"+s);
         }
-        String[] parts = textMerge.split("[,\\n.]");
+        String[] parts = textMerge.split("[.\\n]");
         ArrayList<String> partsList = new ArrayList<>();
 
         for (String s : parts) {
-            if (s != "" && s!=" " && s != "\n" && s != null) {
+            if (!s.equals("") && !s.equals(" ") && !s.equals("\n") && s != null) {
+                s += ".";
                 Log.d(TAG, s);
                 partsList.add(s);
             }
@@ -97,7 +109,7 @@ public class AddQuoteActivity extends Activity {
             selectedQuotes.add("");
             selectedQuotes.add("");
         }
-        adapter = new QuoteListAdapter(this, partsList);
+        adapter = new QuotePartAdapter(this, partsList);
         ListView quoteList = (ListView) findViewById(R.id.list_quote_parts);
         quoteList.setAdapter(adapter);
 
@@ -108,22 +120,30 @@ public class AddQuoteActivity extends Activity {
                 String quote = (String)parent.getItemAtPosition(position);
                 if (check.isChecked()) {
                     selectedPositions.remove(selectedPositions.indexOf(position));
-                    Log.d(TAG, "remove: " + position);
                     check.setChecked(false);
                 } else {
                     if (!alreadySelected(position)) {
-                        Log.d(TAG, "add: " + position);
                         selectedPositions.add(position);
                         Log.d(TAG, String.valueOf(selectedQuotes.size()));
                         selectedQuotes.set(position, quote);
                         Log.d(TAG, selectedQuotes.get(position));
                         Log.d(TAG, String.valueOf(selectedQuotes.size()));
                     }
-                    Log.d(TAG, "setchacekd");
                     check.setChecked(true);
                 }
                 generateQuote();
                 Toast.makeText(getApplicationContext(), finalQuote, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        submit = (Button) findViewById(R.id.save_quote);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Quote q = new Quote();
+                q.setDate(new Date());
+                q.setText(finalQuote);
+                DataManager.get(getApplication()).add(q).saveQuotes();
             }
         });
     }
@@ -131,11 +151,9 @@ public class AddQuoteActivity extends Activity {
     private void generateQuote() {
         finalQuote = "";
         for (int v : selectedPositions) {
-            if (finalQuote != "") {
-                finalQuote += " ";
-            }
             finalQuote += selectedQuotes.get(v);
         }
+        finalLabel.setText(finalQuote);
         return;
     }
 
@@ -149,5 +167,9 @@ public class AddQuoteActivity extends Activity {
             }
         }
         return false;
+    }
+
+    public boolean isSelected(int position) {
+        return selectedPositions.contains(position);
     }
 }

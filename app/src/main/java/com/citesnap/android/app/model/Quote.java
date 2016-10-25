@@ -52,6 +52,14 @@ public class Quote {
         this.text = text;
     }
 
+    public String getBook() {
+        return this.book;
+    }
+
+    public void setBook(String id) {
+        this.book = id;
+    }
+
     @Override
     public String toString() {
         try {

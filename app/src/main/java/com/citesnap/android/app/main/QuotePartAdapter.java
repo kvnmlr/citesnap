@@ -5,23 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.citesnap.android.app.R;
 import com.citesnap.android.app.model.Book;
-import com.citesnap.android.app.model.Quote;
 
 import java.util.ArrayList;
 
 /**
- * Created by Kevin on 10/25/2016.
+ * Created by Kevin on 10/24/2016.
  */
 
-public class QuoteListAdapter  extends ArrayAdapter<Quote> {
+public class QuotePartAdapter extends ArrayAdapter<String> {
+    private Context c;
 
-    public QuoteListAdapter(Context context, ArrayList<Quote> items) {
-        super(context, R.layout.quote_list_item, items);
+    public QuotePartAdapter(Context context, ArrayList<String> items) {
+        super(context, R.layout.bookshelf_item, items);
+
+        c = context;
     }
 
     @Override
@@ -29,12 +32,12 @@ public class QuoteListAdapter  extends ArrayAdapter<Quote> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View quoteListView = inflater.inflate(R.layout.quote_list_item, parent, false);
 
-        Quote quote = getItem(position);
+        String quote = getItem(position);
         TextView quoteText = (TextView) quoteListView.findViewById(R.id.quote_text);
-        String /*TextView*/ bookText = "Placeholder"; //(TextView quoteListView.findViewById(R.id.quote_book_title))
-        quoteText.setText(quote.getText() + "Book: " + bookText);
+        CheckBox check = (CheckBox) quoteListView.findViewById(R.id.quote_list_checkbox);
 
-        //ImageView bookImage = (ImageView) bookshelfItemView.findViewById(R.id.bookshelf_item_image);
+        quoteText.setText(quote);
+        check.setChecked(((AddQuoteActivity)c).isSelected(position));
 
         return quoteListView;
     }
