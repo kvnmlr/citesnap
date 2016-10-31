@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.citesnap.android.app.R;
 import com.citesnap.android.app.model.Book;
+import com.citesnap.android.app.model.DataManager;
 import com.citesnap.android.app.model.Quote;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class QuoteListAdapter  extends ArrayAdapter<Quote> {
         Quote quote = getItem(position);
         TextView quoteText = (TextView) quoteListView.findViewById(R.id.quote_text);
         String /*TextView*/ bookText = "Placeholder"; //(TextView quoteListView.findViewById(R.id.quote_book_title))
-        quoteText.setText(quote.getText() + "Book: " + bookText);
+        quoteText.setText(quote.getText() + "Book: " + DataManager.get(getContext()).getBook(quote.getBook()).getTitle());
 
         //ImageView bookImage = (ImageView) bookshelfItemView.findViewById(R.id.bookshelf_item_image);
 

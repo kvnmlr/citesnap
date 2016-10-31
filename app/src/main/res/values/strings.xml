@@ -38,4 +38,5 @@
     <string name="choose_quote">Select sentences to quote</string>
     <string name="add_quote">Add Quote</string>
     <string name="choose_quote_category">How would you describe this quote?</string>
+    <string name="select_at_least_one">Select at least one sentence</string>
 </resources>

@@ -174,6 +174,7 @@ public class MainActivity extends FragmentActivity
         b1.setDate(new Date());
         b1.setISBN("345-567-678");
         b1.setLink("www.amazon.de/irgendwas");
+        b1.setFinished(true);
         dm.add(b1);
 
         Book b2 = new Book();
@@ -182,6 +183,7 @@ public class MainActivity extends FragmentActivity
         b2.setDate(new Date());
         b2.setISBN("123-234-345");
         b2.setLink("www.amazon.de/irgendwas/anderes");
+        b2.setCurrent(true);
         dm.add(b2);
 
         Book b3 = new Book();
@@ -190,25 +192,20 @@ public class MainActivity extends FragmentActivity
         b3.setDate(new Date());
         b3.setISBN("789-890-012");
         b3.setLink("www.amazon.de/irgendwas/anderes");
+        b3.setCurrent(true);
         dm.add(b3);
-
-        Book b4 = new Book();
-        Book b5 = new Book();
-        Book b6 = new Book();
-        Book b7 = new Book();
-        dm.add(b4);
-        dm.add(b5);
-        dm.add(b6);
-        dm.add(b7).saveBooks();
+        dm.saveBooks();
 
         Quote q1 = new Quote();
         q1.setText("Es war einmal vor langer Zeit");
         q1.setDate(new Date());
+        q1.setBook(b1.getId());
         dm.add(q1);
 
         Quote q2 = new Quote();
         q2.setText("Und wenn sie nicht gestorben sind, dann leben sie noch heute");
         q2.setDate(new Date());
+        q2.setBook(b2.getId());
         dm.add(q2).saveQuotes();
 
         Profile p = new Profile();
