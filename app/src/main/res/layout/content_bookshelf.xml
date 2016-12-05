@@ -16,17 +16,30 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Reads"
+            android:background="#d3d3ff"
+            android:padding="10dp"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal" />
+            android:scrollbars="horizontal"
+            android:padding="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Past Reads"
+            android:padding="10dp"
+            android:background="#d3d3ff"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal" />
+            android:scrollbars="horizontal"
+            android:padding="10dp"/>
 
     </LinearLayout>
 
