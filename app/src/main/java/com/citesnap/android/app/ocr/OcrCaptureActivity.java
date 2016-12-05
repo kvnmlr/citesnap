@@ -145,13 +145,6 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             }
         };
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_capture);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-
         Snackbar.make(mGraphicOverlay, R.string.permission_camera_rationale,
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.ok, listener)
