@@ -152,4 +152,21 @@ public class DataManager {
         saveAll();
         return dataManager;
     }
+
+    public ArrayList<Book> getCurrentBooks() {
+        ArrayList<Book> currentBooks = new ArrayList<>();
+        for (Book b : books) {
+            if (b.isCurrent())
+                currentBooks.add(b);
+        }
+        return currentBooks;
+    }
+    public ArrayList<Book> getFinishedBooks() {
+        ArrayList<Book> currentBooks = new ArrayList<>();
+        for (Book b : books) {
+            if (b.isFinished())
+                currentBooks.add(b);
+        }
+        return currentBooks;
+    }
 }

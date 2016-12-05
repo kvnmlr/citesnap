@@ -1,34 +1,35 @@
 package com.citesnap.android.app.main;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.citesnap.android.app.R;
 import com.citesnap.android.app.model.Book;
 import com.citesnap.android.app.model.DataManager;
-import com.citesnap.android.app.ocr.OcrCaptureActivity;
 import com.google.android.gms.common.api.CommonStatusCodes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookShelfActivity extends Activity {
     private static final String TAG = "BookShelfActivity";
     private static final int RC_ADD_BOOK = 9006;
 
-    private ArrayAdapter<Book> adapter;
+    private List<Book> movieList = new ArrayList<>();
+    private RecyclerView recyclerViewHorizontal;
+    private RecyclerView recyclerViewVertical;
+
+    private BookShelfImageAdapter adapterImage;
+    private BookShelfListAdapter adapterList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +46,56 @@ public class BookShelfActivity extends Activity {
             }
         });
 
-        adapter = new BookShelfListAdapter(this, DataManager.get(this).getBooks());
-        ListView bookshelf = (ListView) findViewById(R.id.bookshelf_list);
-        bookshelf.setAdapter(adapter);
+        LinearLayoutManager layoutManagerHorizontal
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        bookshelf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        recyclerViewHorizontal = (RecyclerView) findViewById(R.id.recycler_view_horizontal);
+        recyclerViewHorizontal.setLayoutManager(layoutManagerHorizontal);
+        movieList = DataManager.get(getApplication()).getBooks();
+        adapterImage = new BookShelfImageAdapter(movieList);
+        recyclerViewHorizontal.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewHorizontal.setAdapter(adapterImage);
+        recyclerViewHorizontal.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Book book = (Book)parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), book.getTitle(), Toast.LENGTH_SHORT).show();
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+
+        LinearLayoutManager layoutManagerVertical
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        recyclerViewVertical = (RecyclerView) findViewById(R.id.recycler_view_vertical);
+        recyclerViewVertical.setLayoutManager(layoutManagerVertical);
+        movieList = DataManager.get(getApplication()).getBooks();
+        adapterList = new BookShelfListAdapter(movieList);
+        recyclerViewVertical.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewVertical.setAdapter(adapterList);
+        recyclerViewVertical.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
             }
         });
 
@@ -65,7 +107,8 @@ public class BookShelfActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == RC_ADD_BOOK) {
             if (resultCode == CommonStatusCodes.SUCCESS || data.getBooleanExtra(AddBookActivity.BOOK_ADDED, true)) {
-                adapter.notifyDataSetChanged();
+                adapterList.notifyDataSetChanged();
+                adapterImage.notifyDataSetChanged();
             }
         }
     }

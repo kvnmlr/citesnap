@@ -4,19 +4,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feed"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_comment_black_24dp"
             android:title="Feed" />
         <item
             android:id="@+id/nav_bookshelf"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_view_carousel_black_24dp"
             android:title="Book Shelf" />
         <item
             android:id="@+id/nav_quotes"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_message_black_24dp"
             android:title="Quotes" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="Profile" />
         <item
             android:id="@+id/nav_settings"
@@ -28,11 +28,11 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_share_black_24dp"
                 android:title="Share" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_camera_black_24dp"
                 android:title="Snap Quote" />
         </menu>
     </item>

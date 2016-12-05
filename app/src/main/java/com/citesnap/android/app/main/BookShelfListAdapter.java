@@ -1,50 +1,55 @@
 package com.citesnap.android.app.main;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.citesnap.android.app.R;
 import com.citesnap.android.app.model.Book;
+import java.util.List;
 
-import java.util.ArrayList;
-import java.util.zip.Inflater;
+public class BookShelfListAdapter extends RecyclerView.Adapter<BookShelfListAdapter.ListViewHolder> {
 
-/**
- * Created by Kevin on 10/16/2016.
- */
+    private List<Book> bookList;
 
-public class BookShelfListAdapter extends ArrayAdapter<Book> {
+    public class ListViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, author, isbn, link;
 
-    public BookShelfListAdapter(Context context, ArrayList<Book> items) {
-        super(context, R.layout.bookshelf_item, items);
+        public ListViewHolder(View view) {
+            super(view);
+            title = (TextView) view.findViewById(R.id.bookshelf_item_title);
+            isbn = (TextView) view.findViewById(R.id.bookshelf_item_author);
+            author = (TextView) view.findViewById(R.id.bookshelf_item_isbn);
+            link = (TextView) view.findViewById((R.id.bookshelf_item_link));
+        }
+    }
+
+
+    public BookShelfListAdapter(List<Book> inBookList) {
+        this.bookList = inBookList;
     }
 
     @Override
-    public View getView(int position, View convert, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View bookshelfItemView = inflater.inflate(R.layout.bookshelf_item, parent, false);
+    public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.bookshelf_item, parent, false);
 
-        Book bookItem = getItem(position);
+        return new ListViewHolder(itemView);
+    }
 
-        TextView bookTitle = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_title);
-        TextView bookAuthor = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_author);
-        TextView bookISBN = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_isbn);
-        TextView bookLink = (TextView) bookshelfItemView.findViewById(R.id.bookshelf_item_link);
+    @Override
+    public void onBindViewHolder(ListViewHolder holder, int position) {
+        Book book = bookList.get(position);
 
-        ImageView bookImage = (ImageView) bookshelfItemView.findViewById(R.id.bookshelf_item_image);
+        holder.title.setText(book.getTitle());
+        holder.isbn.setText(book.getAuthor());
+        holder.author.setText(book.getISBN());
+        holder.link.setText(book.getLink());
+    }
 
-        bookTitle.setText(bookItem.getTitle());
-        bookAuthor.setText(bookItem.getAuthor());
-        bookISBN.setText(bookItem.getISBN());
-        bookLink.setText(bookItem.getLink());
-        bookImage.setImageResource(R.drawable.samplecover);
-
-        return bookshelfItemView;
+    @Override
+    public int getItemCount() {
+        return bookList.size();
     }
 }

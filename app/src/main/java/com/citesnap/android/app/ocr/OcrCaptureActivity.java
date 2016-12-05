@@ -145,13 +145,6 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             }
         };
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_capture);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-
         Snackbar.make(mGraphicOverlay, R.string.permission_camera_rationale,
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.ok, listener)
@@ -344,20 +337,16 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             mCameraSource.autoFocus(null);
             return false;
         }
-        mCameraSource.stop();
-        mOcrDetectorProcessor.setSelectionOkay(true);
-        ArrayList<OcrGraphic> graphics = mOcrDetectorProcessor.getGraphics(true);
+
+        ArrayList<OcrGraphic> graphics = mOcrDetectorProcessor.getGraphics();
         int index = graphics.indexOf(graphic);
 
         OcrGraphic graphicBefore = index > 0 ? graphics.get(index-1) : null;
         OcrGraphic graphicAfter = index < graphics.size()-1 ? graphics.get(index+1) : null;
 
-        for (String s : mOcrDetectorProcessor.getTexts()) {
-            Log.d(TAG, s);
-        }
-        String textBefore = null;
-        String text = null;
-        String textAfter = null;
+        String textBefore = "";
+        String text = "";
+        String textAfter = "";
         if (graphic != null && graphic.getTextBlock() != null) {
             text = graphic.getTextBlock().getValue();
 
@@ -371,7 +360,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
             if (text != null && text != null) {
                 Intent data = new Intent(this, AddQuoteActivity.class);
-                String value = textBefore + text + textAfter;
+                String[] value = {textBefore, text, textAfter};
                 data.putExtra(TextBlockObject, value);
                 startActivity(data);
             }
